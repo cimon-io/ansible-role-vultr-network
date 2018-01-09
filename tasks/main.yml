@@ -1,0 +1,11 @@
+---
+- name: "interfaces configuration"
+  template:
+    src: interfaces.j2
+    dest: "/etc/network/interfaces"
+  when: network_private_ip | ipaddr('10.0.0.0/8')
+  notify: iface up
+  tags:
+    - vultr-network
+
+- meta: flush_handlers
