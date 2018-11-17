@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens7:
+      dhcp4: no
+      addresses: [{{ network_private_ip | ipv4 }}/20]
+

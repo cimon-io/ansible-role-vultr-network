@@ -2,3 +2,5 @@
 - name: "iface up"
   command: "ifup ens7"
 
+- name: "netplan apply"
+  command: "netplan apply"

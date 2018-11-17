@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+    - role: ../../ansible-role-vultr-network
+      network_private_ip: "192.168.244.244"
+      network_private_mask: "255.255.255.0"

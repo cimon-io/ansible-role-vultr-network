@@ -1,0 +1,17 @@
+FROM ubuntu:18.04
+
+RUN apt-get update -qq && \
+    apt-get install -qq sudo python-apt python-netaddr python-pycurl python-pip python-dev \
+                        libffi-dev libssl-dev netplan && \
+    pip install -U setuptools && \
+    pip install -q ansible==2.5.1
+
+WORKDIR /tmp/ansible-role-vultr-network
+COPY  .  /tmp/ansible-role-vultr-network
+
+RUN echo localhost > inventory
+RUN mkdir /etc/netplan
+RUN ansible-playbook -i inventory -c local tests/playbook.yml
+
+RUN cat /etc/netplan/10-ens7.yaml ; cat /etc/network/interfaces
+
