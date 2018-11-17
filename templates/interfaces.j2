@@ -9,6 +9,6 @@ iface ens3 inet6 auto
 
 auto ens7
 iface ens7 inet static
-	address {{ specified_ip }}
-	netmask 255.255.0.0
+	address {{ network_private_ip | ipv4 }}
+	netmask 255.255.240.0
 	mtu 1450

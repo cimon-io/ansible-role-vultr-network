@@ -3,8 +3,23 @@
   template:
     src: interfaces.j2
     dest: "/etc/network/interfaces"
-  when: network_private_ip | ipaddr('10.0.0.0/8')
+  when:
+    - network_private_ip | ipaddr()
+    - (ansible_distribution|lower != "ubuntu") or (ansible_distribution_major_version|int <= 17)
   notify: iface up
+  tags:
+    - vultr-network
+
+- name: "netplan configuration"
+  template:
+    src: netplan.yaml.j2
+    dest: "/etc/netplan/10-ens7.yaml"
+    #validate: "netplan try"
+  when:
+    - network_private_ip | ipaddr()
+    - ansible_distribution|lower == "ubuntu"
+    - ansible_distribution_major_version|int > 17
+  notify: netplan apply
   tags:
     - vultr-network
 
